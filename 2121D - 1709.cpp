@@ -9,30 +9,48 @@ int32_t main(){
 
     while(t--){
 
-        int n,k;
-        cin>>n>>k;
+        int n;
+        cin>>n;
 
-        vector<int>a(n);
-        int ans=0;
-        for(auto &i:a){
-            cin>>i;
-
-            ans+=__builtin_popcountll(i);
+        vector<int>a(n),b(n);
+        for(int i=0;i<n;i++){
+            cin>>a[i];
+        }
+        for(int i=0;i<n;i++){
+            cin>>b[i];
         }
 
-        for(int j=0;j<=60;j++){
-            int b=(1ll<<j);
+        vector<pair<int,int>>v;
 
-            for(auto x:a){
-                if(!(x&b) && k>=b){
-                    ans++;
-                    k-=b;
+        for(int i=0;i<n;i++){
+            for(int j=1;j<n;j++){
+                if(a[j-1]>a[j]){
+                    swap(a[j-1],a[j]);
+                    v.push_back({1,j});
+                }
+            }
+            
+        }
+
+        for(int i=0;i<n;i++){
+            for(int j=1;j<n;j++){
+                if(b[j-1]>b[j]){
+                    swap(b[j-1],b[j]);
+                    v.push_back({2,j});
                 }
             }
         }
 
-        cout<<ans<<endl;
+        for(int i=0;i<n;i++){
+            if(a[i]>b[i]){
+                swap(a[i],b[i]);
+                v.push_back({3,i+1});
+            }
+        }
 
-
+        cout<<v.size()<<endl;
+        for(auto x:v){
+            cout<<x.first<<" "<<x.second<<endl;
+        }
     }
 }
